@@ -14,16 +14,6 @@ export default function SoundToggles({ sound }: { sound: SoundApi }) {
       >
         {sound.soundOn ? '🔊' : '🔇'}
       </button>
-      <button
-        type="button"
-        className={`${base} ${sound.vibrateOn ? '' : 'opacity-60'}`}
-        style={{ borderRadius: 20 }}
-        aria-pressed={sound.vibrateOn}
-        aria-label={sound.vibrateOn ? 'Turn vibration off' : 'Turn vibration on'}
-        onClick={sound.toggleVibrate}
-      >
-        {sound.vibrateOn ? '📳' : '📴'}
-      </button>
     </div>
   )
 }

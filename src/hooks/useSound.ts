@@ -7,9 +7,9 @@ const KEY = 'swipesort.settings.v1'
 function loadSettings() {
   try {
     const s = JSON.parse(localStorage.getItem(KEY) ?? '{}')
-    return { sound: s.sound !== false, vibrate: s.vibrate !== false }
+    return { sound: s.sound !== false }
   } catch {
-    return { sound: true, vibrate: true }
+    return { sound: true }
   }
 }
 
@@ -38,7 +38,7 @@ export function useSound() {
   const [settings, setSettings] = useState(loadSettings)
   const ctxRef = useRef<AudioContext | null>(null)
 
-  const persist = (s: { sound: boolean; vibrate: boolean }) => {
+  const persist = (s: { sound: boolean }) => {
     setSettings(s)
     try {
       localStorage.setItem(KEY, JSON.stringify(s))
@@ -49,7 +49,7 @@ export function useSound() {
 
   const play = useCallback(
     (kind: SoundKind) => {
-      if (settings.vibrate && VIBRATE[kind] && typeof navigator.vibrate === 'function') {
+      if (VIBRATE[kind] && typeof navigator.vibrate === 'function') {
         navigator.vibrate(VIBRATE[kind])
       }
       if (!settings.sound) return
@@ -79,9 +79,7 @@ export function useSound() {
 
   return {
     soundOn: settings.sound,
-    vibrateOn: settings.vibrate,
     toggleSound: () => persist({ ...settings, sound: !settings.sound }),
-    toggleVibrate: () => persist({ ...settings, vibrate: !settings.vibrate }),
     play,
   }
 }
